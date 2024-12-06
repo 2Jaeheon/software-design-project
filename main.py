@@ -213,7 +213,7 @@ class TestLockDoorFunctionality(unittest.TestCase):
         execute_command_callback("UNLOCK", car_controller)
         execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
         execute_command_callback("RIGHT_DOOR_UNLOCK", car_controller)
-        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
@@ -235,7 +235,7 @@ class TestLockDoorFunctionality(unittest.TestCase):
         # 속도가 0이 아닐때 문 잠금 해제 불가능
         execute_command_callback("LEFT_DOOR_LOCK", car_controller)
         execute_command_callback("RIGHT_DOOR_LOCK", car_controller)
-        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
         execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
         execute_command_callback("RIGHT_DOOR_UNLOCK", car_controller)
@@ -297,6 +297,7 @@ unit_test_file_loc_list_OFF_False = [
 class TestEnginFunctionality(unittest.TestCase):
 
     def test_engin_functionality_ON_True(self):
+        error_file = []
         for file_path in unit_test_file_loc_list_ON_True :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -313,10 +314,14 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
+                error_file.append(file_path)
+        if error_file :
+            self.fail(msg=error_file)
 
 
     
     def test_engin_functionality_ON_False(self):
+        error_file = []
         for file_path in unit_test_file_loc_list_ON_False:
             try:
                 unitTest_File = open(file_path, 'r')
@@ -327,14 +332,18 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertFalse(car_controller.get_engine_status())
-                
+
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
+                error_file.append(file_path)
+        if error_file :
+            self.fail(msg=error_file)
     
 
     def test_engin_functionality_OFF_True(self):
+        error_file = []
         for file_path in unit_test_file_loc_list_OFF_True :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -346,13 +355,16 @@ class TestEnginFunctionality(unittest.TestCase):
                 unitTest_File.close()
                 self.assertTrue(car_controller.get_engine_status())
                 
-                
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
+                error_file.append(file_path)
+        if error_file :
+            self.fail(msg=error_file)
         
     def test_engin_functionality_OFF_False(self):
+        error_file = []
         for file_path in unit_test_file_loc_list_OFF_False :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -363,11 +375,14 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertFalse(car_controller.get_engine_status())
-                
+
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
+                error_file.append(file_path)
+        if error_file :
+            self.fail(msg=error_file)
 
 # execute_command를 제어하는 콜백 함수
 # -> 이 함수에서 시그널을 입력받고 처리하는 로직을 구성하면, 알아서 GUI에 연동이 됩니다.
@@ -677,8 +692,8 @@ if __name__ == "__main__":
     car_controller = CarController(car)
 
     if args.test:
-        unittest.main(argv=[sys.argv[0]])
-
+        unittest.main(argv=[sys.argv[0]], exit=False)
+        
     else:
         # GUI는 메인 스레드에서 실행
         gui = CarSimulatorGUI(car_controller,
