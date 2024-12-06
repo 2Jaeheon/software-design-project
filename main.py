@@ -277,6 +277,97 @@ class TestLockDoorFunctionality(unittest.TestCase):
         self.assertEqual(car_controller.get_left_door_lock(), "UNLOCKED")
         self.assertEqual(car_controller.get_right_door_lock(), "UNLOCKED")
 
+unit_test_file_loc_list_ON_True = [
+    ".\example_engin_for_unitTest_ON_1_True",
+    ".\example_engin_for_unitTest_ON_2_True",
+]
+unit_test_file_loc_list_ON_False = [
+    ".\example_engin_for_unitTest_ON_3_False",
+    ".\example_engin_for_unitTest_ON_4_False",
+    ".\example_engin_for_unitTest_ON_5_False",
+    ".\example_engin_for_unitTest_ON_6_False",
+]
+
+unit_test_file_loc_list_OFF_True = [
+    ".\example_engin_for_unitTest_OFF_2_True"
+]
+unit_test_file_loc_list_OFF_False = [
+    ".\example_engin_for_unitTest_OFF_1_False"
+]
+class TestEnginFunctionality(unittest.TestCase):
+
+    def test_engin_functionality_ON_True(self):
+        for file_path in unit_test_file_loc_list_ON_True :
+            try:
+                unitTest_File = open(file_path, 'r')
+                commands = unitTest_File.read().splitlines()
+                car_controller = CarController(Car())
+                for command in commands :
+                    print(command)
+                    execute_command_callback(command, car_controller)
+                print(file_path)
+                unitTest_File.close()
+                self.assertTrue(car_controller.get_engine_status())
+                
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+
+    
+    def test_engin_functionality_ON_False(self):
+        for file_path in unit_test_file_loc_list_ON_False:
+            try:
+                unitTest_File = open(file_path, 'r')
+                commands = unitTest_File.read().splitlines()
+                car_controller = CarController(Car())
+                for command in commands :
+                    execute_command_callback(command, car_controller)
+                print(file_path)
+                unitTest_File.close()
+                self.assertFalse(car_controller.get_engine_status())
+                
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+    
+
+    def test_engin_functionality_OFF_True(self):
+        for file_path in unit_test_file_loc_list_OFF_True :
+            try:
+                unitTest_File = open(file_path, 'r')
+                commands = unitTest_File.read().splitlines()
+                car_controller = CarController(Car())
+                for command in commands :
+                    execute_command_callback(command, car_controller)
+                print(file_path)
+                unitTest_File.close()
+                self.assertTrue(car_controller.get_engine_status())
+                
+                
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+        
+    def test_engin_functionality_OFF_False(self):
+        for file_path in unit_test_file_loc_list_OFF_False :
+            try:
+                unitTest_File = open(file_path, 'r')
+                commands = unitTest_File.read().splitlines()
+                car_controller = CarController(Car())
+                for command in commands :
+                    execute_command_callback(command, car_controller)
+                print(file_path)
+                unitTest_File.close()
+                self.assertFalse(car_controller.get_engine_status())
+                
+            except FileNotFoundError:
+                print(f"Error: File '{file_path}' not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
 
 # execute_command를 제어하는 콜백 함수
 # -> 이 함수에서 시그널을 입력받고 처리하는 로직을 구성하면, 알아서 GUI에 연동이 됩니다.
@@ -563,10 +654,12 @@ def file_input_thread(gui):
 # 메인 실행
 # -> 가급적 main login은 수정하지 마세요.
 if __name__ == "__main__":
+    
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", action="store_true", help="Run in test mode")
     args = parser.parse_args()
-
+    
     car = Car()
     car_controller = CarController(car)
 
