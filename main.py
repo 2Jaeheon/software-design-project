@@ -654,8 +654,7 @@ def file_input_thread(gui):
 # 메인 실행
 # -> 가급적 main login은 수정하지 마세요.
 if __name__ == "__main__":
-    fil = open(".\example_engin_for_unitTest_ON_1_True", "r")
-    lis = fil.read().splitlines()
+    
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--test", action="store_true", help="Run in test mode")
