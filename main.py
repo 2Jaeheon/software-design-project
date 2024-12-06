@@ -293,11 +293,12 @@ unit_test_file_loc_list_OFF_True = [
 ]
 unit_test_file_loc_list_OFF_False = [
     ".\example_engin_for_unitTest_OFF_1_False"
-]
+] # 유닛 테스트를 위한 입력값이 저장된 파일들
+
 class TestEnginFunctionality(unittest.TestCase):
 
     def test_engin_functionality_ON_True(self):
-        error_file = []
+        error_file = [] # 에러가 발생한 파일을 저장할 리스트
         for file_path in unit_test_file_loc_list_ON_True :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -309,19 +310,20 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertTrue(car_controller.get_engine_status())
-                
+                # 파일을 읽어온 뒤 유닛 테스트 실행
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
-                error_file.append(file_path)
+                error_file.append(file_path) 
+                # 유닛 테스트 오류가 발생할 경우 error_file 리스트에 해당 파일 이름 저장
         if error_file :
-            self.fail(msg=error_file)
+            self.fail(msg=error_file) # 오류가 발생한 파일 리스트로 출력
 
 
     
     def test_engin_functionality_ON_False(self):
-        error_file = []
+        error_file = [] # 에러가 발생한 파일을 저장할 리스트
         for file_path in unit_test_file_loc_list_ON_False:
             try:
                 unitTest_File = open(file_path, 'r')
@@ -332,18 +334,19 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertFalse(car_controller.get_engine_status())
-
+                # 파일을 읽어온 뒤 유닛 테스트 실행
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
                 error_file.append(file_path)
+                # 유닛 테스트 오류가 발생할 경우 error_file 리스트에 해당 파일 이름 저장
         if error_file :
-            self.fail(msg=error_file)
+            self.fail(msg=error_file) # 오류가 발생한 파일 리스트로 출력
     
 
     def test_engin_functionality_OFF_True(self):
-        error_file = []
+        error_file = [] # 에러가 발생한 파일을 저장할 리스트
         for file_path in unit_test_file_loc_list_OFF_True :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -354,17 +357,18 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertTrue(car_controller.get_engine_status())
-                
+                # 파일을 읽어온 뒤 유닛 테스트 실행
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
                 error_file.append(file_path)
+                # 유닛 테스트 오류가 발생할 경우 error_file 리스트에 해당 파일 이름 저장
         if error_file :
-            self.fail(msg=error_file)
+            self.fail(msg=error_file) # 오류가 발생한 파일 리스트로 출력
         
     def test_engin_functionality_OFF_False(self):
-        error_file = []
+        error_file = [] # 에러가 발생한 파일을 저장할 리스트
         for file_path in unit_test_file_loc_list_OFF_False :
             try:
                 unitTest_File = open(file_path, 'r')
@@ -375,14 +379,15 @@ class TestEnginFunctionality(unittest.TestCase):
                 print(file_path)
                 unitTest_File.close()
                 self.assertFalse(car_controller.get_engine_status())
-
+                # 파일을 읽어온 뒤 유닛 테스트 실행
             except FileNotFoundError:
                 print(f"Error: File '{file_path}' not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
                 error_file.append(file_path)
+                # 유닛 테스트 오류가 발생할 경우 error_file 리스트에 해당 파일 이름 저장
         if error_file :
-            self.fail(msg=error_file)
+            self.fail(msg=error_file) # 오류가 발생한 파일 리스트로 출력
 
 # execute_command를 제어하는 콜백 함수
 # -> 이 함수에서 시그널을 입력받고 처리하는 로직을 구성하면, 알아서 GUI에 연동이 됩니다.
