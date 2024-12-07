@@ -497,6 +497,7 @@ LOCK_CONDITION = {False, "CLOSED", "CLOSED", "LOCKED", "LOCKED", False,
 ENGIN_ON_CONDITION = {False, False, "BRAKE"} # 전체 잠금, 엔진 상태, 선행 상태
 ENGIN_OFF_CONDITION = {False, True, 0} # 전체 잠금, 엔진 상태, 현재 속도
 
+
 from collections import deque
 def execute_command_callback(command, car_controller):
     # 임찬우
