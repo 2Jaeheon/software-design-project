@@ -389,6 +389,98 @@ class TestEnginFunctionality(unittest.TestCase):
         if error_file :
             self.fail(msg=error_file) # 오류가 발생한 파일 리스트로 출력
 
+class TestNewEngineFunctionality(unittest.TestCase):
+
+    def execute_combined_command(self, command_line, car_controller):
+        commands = command_line.split()
+        for command in commands:
+            execute_command_callback(command, car_controller)
+
+    # TESTCASE 1
+    def test_example_new_engin_1(self):
+        car_controller = CarController(Car())
+
+        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("UNLOCK", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertTrue(car_controller.get_engine_status(), "Engine ON")
+    
+    # TESTCASE 2
+    def test_example_new_engin_1_fault(self):
+        car_controller = CarController(Car())
+
+        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("UNLOCK", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        
+        self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
+    
+    # TESTCASE 3
+    def test_example_new_engin_2(self):
+        car_controller = CarController(Car())
+
+        execute_command_callback("UNLOCK", car_controller)
+        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("ACCELERATE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertTrue(car_controller.get_engine_status(), "Engine ON")
+    
+    # TESTCASE 4
+    def test_example_new_engin_2_fault(self):
+        car_controller = CarController(Car())
+
+        execute_command_callback("UNLOCK", car_controller)
+        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ACCELERATE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
+
+    # TESTCASE 5
+    def test_example_new_engin_3(self):
+        car_controller = CarController(Car())
+
+        execute_command_callback("UNLOCK", car_controller)
+        execute_command_callback("TRUNK_OPEN", car_controller)
+        execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
+        execute_command_callback("LEFT_DOOR_OPEN", car_controller)
+        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("LEFT_DOOR_CLOSE", car_controller)
+        execute_command_callback("LEFT_DOOR_LOCK", car_controller)
+        execute_command_callback("TRUNK_CLOSE", car_controller)
+        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertTrue(car_controller.get_engine_status(), "Engine ON")
+
+    # TESTCASE 6
+    def test_example_new_engin_3_fault(self):
+        car_controller = CarController(Car())
+
+        execute_command_callback("UNLOCK", car_controller)
+        execute_command_callback("TRUNK_OPEN", car_controller)
+        execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
+        execute_command_callback("LEFT_DOOR_OPEN", car_controller)
+        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("LEFT_DOOR_CLOSE", car_controller)
+        execute_command_callback("LEFT_DOOR_LOCK", car_controller)
+        execute_command_callback("TRUNK_CLOSE", car_controller)
+        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
+
+
 # execute_command를 제어하는 콜백 함수
 # -> 이 함수에서 시그널을 입력받고 처리하는 로직을 구성하면, 알아서 GUI에 연동이 됩니다.
 
