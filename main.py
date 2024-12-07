@@ -555,7 +555,6 @@ def execute_command_callback(command, car_controller):
             if cur_brake_condition == BRAKE_CONDITION:
                 car_controller.brake()  # 속도 -10
 
-
         # 주정윤
         elif command == "LOCK":
             print("차량 잠금")
@@ -576,14 +575,11 @@ def execute_command_callback(command, car_controller):
                 if cur_lock_condition == LOCK_CONDITION:
                     car_controller.lock_vehicle()
 
-
         elif command == "UNLOCK":
             print("차량 잠금해제")
             # 차량의 상태가 'lock'일 때만 차량 잠금해제 가능
             if car_controller.get_lock_status() == True:
                 car_controller.unlock_vehicle()  # 차량잠금해제
-
-
 
         # 이재헌
         elif command == "LEFT_DOOR_LOCK":
@@ -671,7 +667,6 @@ def execute_command_callback(command, car_controller):
             if cur_car_status_set_for_door_close == DOOR_CLOSE_CONDITION:  # 차량의 현재 상태 집합과 동작의 필요 차량 상태 집합이 같은지 확인합니다.
                 car_controller.close_left_door()  # 왼쪽문 닫기
 
-
         elif command == "RIGHT_DOOR_OPEN":
             print("오른쪽문 열기")
             # 속도가 0이며, 차량 전체 잠금이 해제되어 있어야 합니다.
@@ -705,7 +700,6 @@ def execute_command_callback(command, car_controller):
 
             if cur_car_status_set_for_door_close == DOOR_CLOSE_CONDITION:  # 차량의 현재 상태 집합과 동작의 필요 차량 상태 집합이 같은지 확인합니다.
                 car_controller.close_right_door()  # 오른쪽문 닫기
-
 
 
         # 송국선
