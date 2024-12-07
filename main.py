@@ -391,16 +391,11 @@ class TestEnginFunctionality(unittest.TestCase):
 
 class TestNewEngineFunctionality(unittest.TestCase):
 
-    def execute_combined_command(self, command_line, car_controller):
-        commands = command_line.split()
-        for command in commands:
-            execute_command_callback(command, car_controller)
-
     # TESTCASE 1
-    def test_example_new_engin_1(self):
+    def test_example_new_engin_1_fault(self):
         car_controller = CarController(Car())
 
-        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
         execute_command_callback("UNLOCK", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
@@ -408,10 +403,10 @@ class TestNewEngineFunctionality(unittest.TestCase):
         self.assertTrue(car_controller.get_engine_status(), "Engine ON")
     
     # TESTCASE 2
-    def test_example_new_engin_1_fault(self):
+    def test_example_new_engin_1(self):
         car_controller = CarController(Car())
 
-        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN BRAKE", car_controller)
         execute_command_callback("UNLOCK", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
@@ -419,11 +414,11 @@ class TestNewEngineFunctionality(unittest.TestCase):
         self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
     
     # TESTCASE 3
-    def test_example_new_engin_2(self):
+    def test_example_new_engin_2_fault(self):
         car_controller = CarController(Car())
 
         execute_command_callback("UNLOCK", car_controller)
-        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
         execute_command_callback("BRAKE", car_controller)
@@ -432,11 +427,11 @@ class TestNewEngineFunctionality(unittest.TestCase):
         self.assertTrue(car_controller.get_engine_status(), "Engine ON")
     
     # TESTCASE 4
-    def test_example_new_engin_2_fault(self):
+    def test_example_new_engin_2(self):
         car_controller = CarController(Car())
 
         execute_command_callback("UNLOCK", car_controller)
-        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN BRAKE", car_controller)
         execute_command_callback("ACCELERATE", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
         execute_command_callback("BRAKE", car_controller)
@@ -445,24 +440,6 @@ class TestNewEngineFunctionality(unittest.TestCase):
         self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
 
     # TESTCASE 5
-    def test_example_new_engin_3(self):
-        car_controller = CarController(Car())
-
-        execute_command_callback("UNLOCK", car_controller)
-        execute_command_callback("TRUNK_OPEN", car_controller)
-        execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
-        execute_command_callback("LEFT_DOOR_OPEN", car_controller)
-        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
-        execute_command_callback("ENGINE_BTN", car_controller)
-        execute_command_callback("LEFT_DOOR_CLOSE", car_controller)
-        execute_command_callback("LEFT_DOOR_LOCK", car_controller)
-        execute_command_callback("TRUNK_CLOSE", car_controller)
-        self.execute_combined_command("BRAKE ENGINE_BTN", car_controller)
-        execute_command_callback("ENGINE_BTN", car_controller)
-
-        self.assertTrue(car_controller.get_engine_status(), "Engine ON")
-
-    # TESTCASE 6
     def test_example_new_engin_3_fault(self):
         car_controller = CarController(Car())
 
@@ -470,12 +447,30 @@ class TestNewEngineFunctionality(unittest.TestCase):
         execute_command_callback("TRUNK_OPEN", car_controller)
         execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
         execute_command_callback("LEFT_DOOR_OPEN", car_controller)
-        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
         execute_command_callback("LEFT_DOOR_CLOSE", car_controller)
         execute_command_callback("LEFT_DOOR_LOCK", car_controller)
         execute_command_callback("TRUNK_CLOSE", car_controller)
-        self.execute_combined_command("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("BRAKE ENGINE_BTN", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+
+        self.assertTrue(car_controller.get_engine_status(), "Engine ON")
+
+    # TESTCASE 6
+    def test_example_new_engin_3(self):
+        car_controller = CarController(Car())
+
+        execute_command_callback("UNLOCK", car_controller)
+        execute_command_callback("TRUNK_OPEN", car_controller)
+        execute_command_callback("LEFT_DOOR_UNLOCK", car_controller)
+        execute_command_callback("LEFT_DOOR_OPEN", car_controller)
+        execute_command_callback("ENGINE_BTN BRAKE", car_controller)
+        execute_command_callback("ENGINE_BTN", car_controller)
+        execute_command_callback("LEFT_DOOR_CLOSE", car_controller)
+        execute_command_callback("LEFT_DOOR_LOCK", car_controller)
+        execute_command_callback("TRUNK_CLOSE", car_controller)
+        execute_command_callback("ENGINE_BTN BRAKE", car_controller)
         execute_command_callback("ENGINE_BTN", car_controller)
 
         self.assertFalse(car_controller.get_engine_status(), "Engine OFF")
